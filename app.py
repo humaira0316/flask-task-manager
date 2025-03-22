@@ -11,10 +11,9 @@ class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200), nullable=False)
 
-# Initialize DB
-@app.before_first_request
-def create_tables():
+with app.app_context():
     db.create_all()
+
 
 # Route to Add a Task
 @app.route("/tasks", methods=["POST"])
@@ -41,5 +40,8 @@ def delete_task(id):
     db.session.commit()
     return jsonify({"message": "Task deleted!"})
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+# Initialize DB
+if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()  # This ensures the tables are created
+    app.run(debug=True, host="0.0.0.0", port=5000)
