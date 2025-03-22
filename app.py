@@ -39,6 +39,10 @@ def delete_task(id):
     db.session.delete(task)
     db.session.commit()
     return jsonify({"message": "Task deleted!"})
+@app.route('/')
+def home():
+    return "Hello, Flask is running on Render! 🚀"
+
 
 # Initialize DB
 if __name__ == '__main__':
